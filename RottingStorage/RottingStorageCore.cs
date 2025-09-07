@@ -2,6 +2,8 @@
 using HarmonyLib;
 using JetBrains.Annotations;
 using RottingStorage.Behavior;
+using RottingStorage.Config;
+using Vintagestory.API.Server;
 using Vintagestory.API.Common;
 
 namespace RottingStorage;
@@ -13,7 +15,9 @@ public class RottingStorageCore : ModSystem
     public static string? ModId { get; private set; }
     public static ICoreAPI? Api { get; private set; }
     private static Harmony? HarmonyInstance { get; set; }
-
+    public override double ExecuteOrder() =>
+        ConfigLoader.FixedExecuteOrder + 0.01;
+    
     public override void StartPre(ICoreAPI api)
     {
         base.StartPre(api);
@@ -35,26 +39,34 @@ public class RottingStorageCore : ModSystem
     {
         base.AssetsFinalize(api);
         string behName = BlockEntityBehaviorRottingStorage.BehaviorTypeName;
+        var addedCount = 0;
+        var presentCount = 0;
         foreach (var block in api.World.Blocks.Where(b=> HasIBlockEntityContainer(b, api)) )
         {
-            Logger?.Warning("Found container block: " + block.Code);
             if (block == null) continue;
             var beh = block.BlockEntityBehaviors;
             if (beh == null || beh.Length == 0)
             {
-                Logger?.Warning("Adding behavior to block: " + block.Code);
                 block.BlockEntityBehaviors =
                 [
                     new BlockEntityBehaviorType { Name = behName }
                 ];
+                addedCount++;
                 continue;
             }
-            if (beh.Any(b => b?.Name == behName)) continue;
-            Logger?.Warning("Adding behavior to block: " + block.Code);
+
+            if (beh.Any(b => b?.Name == behName))
+            {
+                presentCount++;
+                continue;
+            };
             var list = beh.ToList();
             list.Add(new BlockEntityBehaviorType { Name = behName });
             block.BlockEntityBehaviors = list.ToArray();
+            addedCount++;
         }
+        Logger?.Notification($"Added {behName} behavior to {addedCount} blocks with IBlockEntityContainer, " +
+                                    $"while {presentCount} blocks already had it.");
     }
 
     public override void Dispose()

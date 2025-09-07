@@ -7,10 +7,11 @@ namespace RottingStorage.Config;
 [UsedImplicitly(ImplicitUseKindFlags.InstantiatedNoFixedConstructorSignature)]
 public class ConfigLoader : ModSystem
 {
+    public const double FixedExecuteOrder = 0.1;
     private const string ConfigName = "RottingStorage.json";
     private static ModConfig? _config;
     public static ModConfig Config => _config ??= new ModConfig();
-
+    public override double ExecuteOrder() => FixedExecuteOrder;
     public override void StartPre(ICoreAPI api)
     {
         try

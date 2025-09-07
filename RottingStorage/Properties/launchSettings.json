@@ -3,13 +3,13 @@
     "Client": {
       "commandName": "Executable",
       "executablePath": "$(VINTAGE_STORY)/Vintagestory",
-      "commandLineArgs": "--tracelog --addModPath \"$(ProjectDir)/bin/$(Configuration)/Mods\" -o \"$(WorldName)\" --dataPath \"$(TestDataPath)\"",
+      "commandLineArgs": "--tracelog --addModPath \"$(ProjectDir)/bin/$(Configuration)/Mods\" \"$(DevModPath)\" -o \"$(WorldName)\" --dataPath \"$(TestDataPath)\"",
       "workingDirectory": "$(VINTAGE_STORY)"
     },
     "Server": {
       "commandName": "Executable",
       "executablePath": "$(VINTAGE_STORY)/VintagestoryServer",
-      "commandLineArgs": "--tracelog --addModPath \"$(ProjectDir)/bin/$(Configuration)/Mods\" -o \"$(WorldName)\" --dataPath \"$(TestDataPath)\"",
+      "commandLineArgs": "--tracelog --addModPath \"$(ProjectDir)/bin/$(Configuration)/Mods\" \"$(DevModPath)\" -o \"$(WorldName)\" --dataPath \"$(TestDataPath)\"",
       "workingDirectory": "$(VINTAGE_STORY)"
     }
   }
