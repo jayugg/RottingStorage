@@ -47,10 +47,14 @@ public class BlockEntityBehaviorRottingStorage(BlockEntity blockEntity) : BlockE
         var (rottenCount, rottingCount) = CountRottenStuff(Blockentity.Api.World, _container, RottenStacks);
         var baseRottenRate = 1 + ConfigLoader.Config.PerishRateIncreasePerItem;
         var baseRottingRate = 1 + ConfigLoader.Config.PerishRateIncreasePerItem / 5;
+        if (IsRotten(stack, RottenStacks))
+            rottenCount--;
+        else if (IsRotting(Blockentity.Api.World, stack, null))
+            rottingCount--;
         var rateIncrease = MathF.Pow(baseRottenRate, rottenCount) * MathF.Pow(baseRottingRate, rottingCount);
-        RottingStorageCore.Logger?.Warning($"Perish rate increase: " +
-                                           $"{rateIncrease}x (base {baseRottenRate}x, {rottenCount} rotten items, {rottingCount} rotting items) " +
-                                           $"at position {Pos} for {Block.Code}");
+        //RottingStorageCore.Logger?.VerboseDebug($"Perish rate increase: " +
+        //                                   $"{rateIncrease}x (base {baseRottenRate}x, {rottenCount} rotten items, {rottingCount} rotting items) " +
+        //                                   $"at position {Pos} for {Block.Code}");
         return baseMul * rateIncrease;
     }
     
@@ -66,16 +70,20 @@ public class BlockEntityBehaviorRottingStorage(BlockEntity blockEntity) : BlockE
             // Handle containers so we can check their contents
             if (TryGetContents(world, itemStack, out var contents) && contents?.Length > 0)
                 totalRotten += CountRottenStuff(contents, rottenStacks);
-            else if (rottenStacks.Any(stack => stack.ResolvedItemstack.Satisfies(itemStack)))
+            else if (IsRotten(itemStack, rottenStacks))
                 totalRotten += itemStack.StackSize;
-            else if (!itemStack.Collectible.IsReasonablyFresh(world, slot?.Itemstack))
-            {
+            else if (IsRotting(world, itemStack, slot))
                 totalRotting += itemStack.StackSize;
-            }
         }
         return (totalRotten, totalRotting);
     }
-    
+
+    private static bool IsRotting(IWorldAccessor world, ItemStack itemStack, ItemSlot? slot) =>
+        !itemStack.Collectible.IsReasonablyFresh(world, slot?.Itemstack);
+
+    private static bool IsRotten(ItemStack itemStack, IReadOnlyList<JsonItemStack> rottenStacks) => 
+        rottenStacks.Any(stack => stack.ResolvedItemstack.Satisfies(itemStack));
+
     private static int CountRottenStuff(ItemStack[] itemStacks, IReadOnlyList<JsonItemStack> rottenStacks)
     {
         var total = 0;
