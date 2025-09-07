@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "file": "RottingStorage.json",
+  "patches": {},
+  "settings": [
+    {
+      "code": "RottenItemStacks",
+      "ingui": "rottingstorage:setting-rottenitemstacks",
+      "type": "other",
+      "weight": 0.5,
+      "comment": "rottingstorage:setting-rottenitemstacks-desc",
+      "default": [{"type": "item", "code": "game:rot"}]
+    },
+    {
+      "code": "PerishRateIncreasePerItem",
+      "ingui": "rottingstorage:setting-perishrateincreaseperitem",
+      "type": "float",
+      "weight": 0.49,
+      "comment": "rottingstorage:setting-perishrateincreaseperitem-desc",
+      "default": 0.01,
+      "logarithmic": true,
+      "range": { "min": 1e-4, "max": 10 }
+    },
+    {
+      "code": "FlySpawnMaxTemperature",
+      "ingui": "rottingstorage:setting-flyspawnmaxtemperature",
+      "type": "float",
+      "weight": 0.48,
+      "comment": "rottingstorage:setting-flyspawnmaxtemperature-desc",
+      "default": 50.0,
+      "range": { "min": -100, "max": 100 }
+    },
+    {
+      "code": "MaxExtraFlyCloudCount",
+      "ingui": "rottingstorage:setting-maxextraflycloudcount",
+      "int": "float",
+      "weight": 0.47,
+      "comment": "rottingstorage:setting-maxextraflycloudcount-desc",
+      "default": 200,
+      "range": { "min": 0, "max": 1000 }
+    },
+    {
+      "code": "MaxFlyCloudSpawnPerSimTick",
+      "ingui": "rottingstorage:setting-maxflycloudspawnpersimtick",
+      "int": "float",
+      "weight": 0.46,
+      "comment": "rottingstorage:setting-maxflycloudspawnpersimtick-desc",
+      "default": 6,
+      "range": { "min": 1, "max": 100 }
+    },
+    {
+      "code": "MinFlyCountPerCloud",
+      "ingui": "rottingstorage:setting-minflycountpercloud",
+      "int": "float",
+      "weight": 0.45,
+      "comment": "rottingstorage:setting-minflycountpercloud-desc",
+      "default": 10,
+      "range": { "min": 1, "max": 100 }
+    }
+  ],
+  "formatting": [
+    { "type": "separator", "title": "Client Config", "weight": 1 }
+  ]
+}

@@ -1,0 +1,9 @@
+<Project>
+    <!-- Set your vs installation here! -->
+    <PropertyGroup>
+        <VINTAGE_STORY>$(VINTAGE_STORY_1_21)</VINTAGE_STORY>
+        <WorldName>[TEST] RottingStorage</WorldName>
+        <TestDir>$(SolutionDir)/test</TestDir>
+        <TestDataPath>$(TestDir)/VintagestoryData</TestDataPath>
+    </PropertyGroup>
+</Project>
