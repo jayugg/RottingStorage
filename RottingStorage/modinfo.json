@@ -1,8 +1,9 @@
 {
-  "type": "code",
+  "$schema": "https://moddbcdn.vintagestory.at/schema/modinfo.latest.json",
+  "type": "Code",
   "modid": "rottingstorage",
   "name": "RottingStorage",
-  "side": "universal",
+  "side": "Universal",
   "authors": [ "jayu" ],
   "description": "Rot and rotting items will accelerate the perish rate of food in the same storage.",
   "version": "1.0.0",
